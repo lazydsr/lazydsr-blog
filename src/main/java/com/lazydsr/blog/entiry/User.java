@@ -1,11 +1,11 @@
 package com.lazydsr.blog.entiry;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * User
@@ -20,22 +20,27 @@ import javax.persistence.Table;
 @Entity
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "账号不能为空")
+    @Size(min = 4, max = 100)
+    @Column(nullable = false, length = 100, unique = true)
+    private String username;
+    @NotEmpty(message = "密码不能为空")
+    @Size(min = 4, max = 300)
+    @Column(nullable = false, length = 300)
+    private String password;
+    @NotEmpty(message = "姓名不能为空")
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
     private String name;
+    @Column(length = 100, unique = true)
+    @Email(message = "邮箱格式不正确")
     private String email;
+    @Column(length = 100)
+    private String mobile;
+    @Column(length = 500)
+    private String avatar;
 
-    public User() {
-    }
 
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
-
-    public User(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
 }
